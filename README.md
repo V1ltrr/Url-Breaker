@@ -51,7 +51,7 @@ python url_breaker.py
    - Example: `https://example.com/admin`
 
 3. The tool will test each URL variant and display a summary table with the HTTP status codes.
-## wordlist.txt
+## Wordlist
 - Optional: You can create a `wordlist.txt` file in the script directory.  
 - Each line should contain a relative path to test (e.g., `admin`, `login`, `../../etc/passwd`).  
 - The script reads these paths and uses them as URL variants.
