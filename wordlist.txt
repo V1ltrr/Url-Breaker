@@ -28,3 +28,4 @@ database.sql
 hidden/
 admin%20
 admin..;/
+wp-sitemap.xml
