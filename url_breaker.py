@@ -79,7 +79,7 @@ def test_variants_reduced(base_url, payloads=PAYLOADS):
 
         # Barre de progression mise à jour à chaque test
         progress = int((index / total) * 30)
-        bar = "#" * progress + "-" * (30 - progress)
+        bar = "■" * progress + "-" * (30 - progress)
         percent = int((index / total) * 100)
         sys.stdout.write(f"\r[{bar}] {percent}%")
         sys.stdout.flush()
