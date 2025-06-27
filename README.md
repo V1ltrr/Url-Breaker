@@ -2,7 +2,7 @@
 
 ## Description
 
-**url-breaker** is a lightweight Python tool designed to perform URL fuzzing.  
+**Url Breaker** is a lightweight Python tool designed to perform URL fuzzing.  
 It automatically generates various "broken" or modified variants of a target URL and tests each one to identify unexpected behaviors or potential server-side vulnerabilities.
 
 This tool is particularly useful for web security testing, allowing you to verify if certain paths or URL variants not intended by the application are accessible or produce different responses.
