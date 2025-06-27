@@ -13,7 +13,9 @@ This tool is particularly useful for web security testing, allowing you to verif
 - Sends HTTP requests to each variant and displays the HTTP status code.  
 - Colorized terminal output for easier result interpretation.  
 - Robust error handling to prevent process interruptions due to network issues.  
-- Interactive console interface with usage mode selection.
+- Interactive console interface with mode selection and display preferences.  
+- Multithreaded scanning for faster execution.  
+- Stylish dynamic progress bar in reduced mode for a smooth UX.
 
 ## Requirements
 - Python 3.6 or higher  
@@ -22,21 +24,14 @@ This tool is particularly useful for web security testing, allowing you to verif
   - `colorama`
 
 ## Installation
-1. Clone the repository or download the source files :
-
+Clone the repository or download the source files :
 ```bash
 git clone https://github.com/V1ltrr/Url-Breaker.git
 cd Url-Breaker
-pip install requests colorama tqdm
-```
-2. Install dependencies via pip :
-
-```bash
-git clone https://github.com/your-username/url-breaker.git
-cd url-breaker
+pip install requests colorama
 ```
 ## Usage
-Run the script by providing a base URL as an argument :
+Run the script by launching :
 ```bash
 python url_breaker.py
 ```
@@ -45,25 +40,23 @@ python url_breaker.py
    - Default built-in list  
    - Custom wordlist from `wordlist.txt`  
    - Exit the program
-
+     
+2. Select the display mode :  
+   - Extended mode: view all tested URLs and their HTTP codes  
+   - Reduced mode: view only a summary (200 & 403) with a progress bar
+     
 2. Enter the target URL:  
    - Must include the protocol (`http://` or `https://`)  
    - No spaces allowed  
    - Example: `https://example.com/admin`
 
-3. The tool will test each URL variant and display a summary table with the HTTP status codes.
-## Wordlist
-- Optional: You can create a `wordlist.txt` file in the script directory.  
-- Each line should contain a relative path to test (e.g., `admin`, `login`, `../../etc/passwd`).  
-- The script reads these paths and uses them as URL variants.
-
 ## Project Structure
-
 ```text
 url-breaker/
+├── LICENCE            # This documentation file
+├── README.md            # This documentation file
 ├── url_breaker.py       # Main script
 ├── wordlist.txt         # Optional custom variants file
-├── README.md            # This documentation file
 ```
 
 ## Internal Details
@@ -73,17 +66,16 @@ url-breaker/
 - Handles network exceptions gracefully.  
 - Uses `colorama` for colored terminal output.  
 - Interactive CLI with `print()` and `input()` for user interaction.
+- Uses concurrent.futures.ThreadPoolExecutor for concurrent requests.
 
 ## Limitations and Future Work
 
-- Current fuzzing is based on a static list; future improvements could include dynamic variant generation.  
-- Adding multithreading or async requests to improve speed.  
+- Current fuzzing is based on a static list; future improvements could include dynamic variant generation.   
 - Content comparison to detect significant differences between responses.  
 - Exporting results to CSV or JSON.  
 - Supporting other HTTP methods like POST or PUT.
 
 ## Contributing
-
 Contributions are welcome! To contribute :
 1. Fork the repository  
 2. Create a feature branch (`git checkout -b feature/your-feature`)  
