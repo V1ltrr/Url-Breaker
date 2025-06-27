@@ -1,4 +1,4 @@
-# url-breaker
+# Url Breaker
 
 ## Description
 
@@ -8,7 +8,6 @@ It automatically generates various "broken" or modified variants of a target URL
 This tool is particularly useful for web security testing, allowing you to verify if certain paths or URL variants not intended by the application are accessible or produce different responses.
 
 ## Key Features
-
 - Automatic generation of URL variants including encodings, special sequences, path manipulations, and more.  
 - Support for a custom wordlist (`wordlist.txt`) to test additional variants.  
 - Sends HTTP requests to each variant and displays the HTTP status code.  
@@ -17,14 +16,12 @@ This tool is particularly useful for web security testing, allowing you to verif
 - Interactive console interface with usage mode selection.
 
 ## Requirements
-
 - Python 3.6 or higher  
 - Python packages:
   - `requests`  
   - `colorama`
 
 ## Installation
-
 1. Clone the repository or download the source files :
 
 ```bash
@@ -54,17 +51,19 @@ python url_breaker.py
    - Example: `https://example.com/admin`
 
 3. The tool will test each URL variant and display a summary table with the HTTP status codes.
-
 ## wordlist.txt
 - Optional: You can create a `wordlist.txt` file in the script directory.  
 - Each line should contain a relative path to test (e.g., `admin`, `login`, `../../etc/passwd`).  
 - The script reads these paths and uses them as URL variants.
 
 ## Project Structure
+
+```text
 url-breaker/
 ├── url_breaker.py       # Main script
 ├── wordlist.txt         # Optional custom variants file
 ├── README.md            # This documentation file
+```
 
 ## Internal Details
 
