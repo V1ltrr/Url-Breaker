@@ -25,8 +25,9 @@ This tool is particularly useful for web security testing, allowing you to verif
 1. Clone the repository or download the source files :
 
 ```bash
-git clone https://github.com/your-username/url-breaker.git
-cd url-breaker
+git clone https://github.com/V1ltrr/Url-Breaker.git
+cd Url-Breaker
+pip install requests colorama
 ```
 2. Install dependencies via pip :
 
