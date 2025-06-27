@@ -1,4 +1,3 @@
-# Change your word list by adding or importing a predefined word dictionary here
 admin
 admin/
 ./admin
