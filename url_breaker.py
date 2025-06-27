@@ -1,16 +1,35 @@
 import requests
 from urllib.parse import urljoin
-import argparse
 from colorama import Fore, Style, init
 
-init(autoreset=True)  # reset les couleurs après chaque print
+init(autoreset=True)  # reset couleurs après chaque print
 
-# Liste simple de variantes tordues
 PAYLOADS = [
     "%2e%2e/", "./", "..%2f", "..;/", "%2e/", "//", "/./", "/%2e/",
 ]
 
-# Affichage en tableau Markdown avec couleur
+def print_logo():
+    print(r"""
+$$\   $$\           $$\       $$$$$$$\                                $$\                           
+$$ |  $$ |          $$ |      $$  __$$\                               $$ |                          
+$$ |  $$ | $$$$$$\  $$ |      $$ |  $$ | $$$$$$\   $$$$$$\   $$$$$$\  $$ |  $$\  $$$$$$\   $$$$$$\  
+$$ |  $$ |$$  __$$\ $$ |      $$$$$$$\ |$$  __$$\ $$  __$$\  \____$$\ $$ | $$  |$$  __$$\ $$  __$$\ 
+$$ |  $$ |$$ |  \__|$$ |      $$  __$$\ $$ |  \__|$$$$$$$$ | $$$$$$$ |$$$$$$  / $$$$$$$$ |$$ |  \__|
+$$ |  $$ |$$ |      $$ |      $$ |  $$ |$$ |      $$   ____|$$  __$$ |$$  _$$<  $$   ____|$$ |      
+\$$$$$$  |$$ |      $$ |      $$$$$$$  |$$ |      \$$$$$$$\ \$$$$$$$ |$$ | \$$\ \$$$$$$$\ $$ |      
+ \______/ \__|      \__|      \_______/ \__|       \_______| \_______|\__|  \__| \_______|\__|      
+                                                                                                    
+                                                                                                                                                                                                      
+$$\    $$\                               $$\                            $$$$$$\       $$$$$$\       
+$$ |   $$ |                              \__|                          $$$ __$$\     $$  __$$\      
+$$ |   $$ | $$$$$$\   $$$$$$\   $$$$$$$\ $$\  $$$$$$\  $$$$$$$\        $$$$\ $$ |    \__/  $$ |     
+\$$\  $$  |$$  __$$\ $$  __$$\ $$  _____|$$ |$$  __$$\ $$  __$$\       $$\$$\$$ |     $$$$$$  |     
+ \$$\$$  / $$$$$$$$ |$$ |  \__|\$$$$$$\  $$ |$$ /  $$ |$$ |  $$ |      $$ \$$$$ |    $$  ____/      
+  \$$$  /  $$   ____|$$ |       \____$$\ $$ |$$ |  $$ |$$ |  $$ |      $$ |\$$$ |    $$ |           
+   \$  /   \$$$$$$$\ $$ |      $$$$$$$  |$$ |\$$$$$$  |$$ |  $$ |      \$$$$$$  /$$\ $$$$$$$$\      
+    \_/     \_______|\__|      \_______/ \__| \______/ \__|  \__|       \______/ \__|\________|                                                      
+""")
+
 def print_header():
     print()
     print("+-------+---------------------------------------------------------+")
@@ -35,9 +54,9 @@ def print_footer():
     print("+-------+---------------------------------------------------------+")
     print()
 
-def test_variants(base_url):
+def test_variants(base_url, payloads=PAYLOADS):
     print_header()
-    for payload in PAYLOADS:
+    for payload in payloads:
         test_url = urljoin(base_url + "/", payload)
         try:
             r = requests.get(test_url, timeout=5)
@@ -46,10 +65,66 @@ def test_variants(base_url):
             print(f"{Fore.RED}[ERROR] {test_url} -> {e}")
     print_footer()
 
+def load_wordlist(filename="wordlist.txt"):
+    try:
+        with open(filename, "r") as f:
+            return [line.strip() for line in f if line.strip()]
+    except FileNotFoundError:
+        print(f"{Fore.RED}[ERROR] File {filename} not found.")
+        return []
+
+def menu_select_list_mode():
+    print("+-------------------------------+")
+    print("| Selects an option:            |")
+    print("+---------------------------------------------------+")
+    print("| 1 - Start fuzzing with the default list           |")
+    print("| 2 - Launch with a custom wordlist (wordlist.txt)  |")
+    print("| 3 - Quit                                          |")
+    print("+---------------------------------------------------+")
+
+
+    while True:
+        choice = input("\n>>> ")
+        if choice == "1":
+            print("\n[+] Default list mode selected.\n")
+            return "default"
+        elif choice == "2":
+            print("\n[+] Custom wordlist mode selected.\n")
+            return "wordlist"
+        elif choice == "3":
+            print("\nGoodbye!\n")
+            exit(0)
+        else:
+            print("\nInvalid option, try again.")
+
+def ask_url():
+    print("+-------------------------------+")
+    print("| Advice                        |")
+    print("+----------------------------------------------------+")
+    print("| - Include protocol (http:// ou https://)           |")
+    print("| - Don't use spaces                                 |")
+    print("| - Exemple : https://site.com/                      |")
+    print("+----------------------------------------------------+")
+    print()
+    
+    while True:
+        url = input("Target URL : ").strip()
+        if url.startswith("http://") or url.startswith("https://"):
+            return url
+        else:
+            print(f"{Fore.RED}Invalid URL. Be sure to include http:// or https://")
+
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Test URL parser edge cases.")
-    parser.add_argument("url", help="Base URL to test (e.g., https://site.com/admin)")
-    args = parser.parse_args()
+    print_logo()
+    mode = menu_select_list_mode()
+    url = ask_url()
 
-    test_variants(args.url)
-
+    if mode == "default":
+        test_variants(url)
+    elif mode == "wordlist":
+        wordlist = load_wordlist()
+        if wordlist:
+            test_variants(url, wordlist)
+        else:
+            print(f"{Fore.RED}Wordlist empty, launch with default list.")
+            test_variants(url)
