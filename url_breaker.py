@@ -1,10 +1,10 @@
 import requests
 from urllib.parse import urljoin
-from colorama import Fore, Style, init
-from tqdm import tqdm
+from colorama import Fore, init
 import time
+import sys
 
-init(autoreset=True)  # reset couleurs après chaque print
+init(autoreset=True)
 
 PAYLOADS = [
     "%2e%2e/", "./", "..%2f", "..;/", "%2e/", "//", "/./", "/%2e/",
@@ -18,14 +18,14 @@ def print_logo():
 ██║   ██║██╔══██╗██║         ██╔══██╗██╔══██╗██╔══╝  ██╔══██║██╔═██╗ ██╔══╝  ██╔══██╗                         
 ╚██████╔╝██║  ██║███████╗    ██████╔╝██║  ██║███████╗██║  ██║██║  ██╗███████╗██║  ██║                         
  ╚═════╝ ╚═╝  ╚═╝╚══════╝    ╚═════╝ ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝                         
-██████████████████████████████████████████████████████████████████████████████████                                                                                 
-                                                                                                                                                                                                        
+██████████████████████████████████████████████████████████████████████████████████  
+                                                                               
 ███╗   ███╗ █████╗ ██████╗ ███████╗    ██████╗ ██╗   ██╗    ██╗   ██╗ ██╗██╗     ████████╗██████╗ ██████╗     
 ████╗ ████║██╔══██╗██╔══██╗██╔════╝    ██╔══██╗╚██╗ ██╔╝    ██║   ██║███║██║     ╚══██╔══╝██╔══██╗██╔══██╗    
 ██╔████╔██║███████║██║  ██║█████╗      ██████╔╝ ╚████╔╝     ██║   ██║╚██║██║        ██║   ██████╔╝██████╔╝    
 ██║╚██╔╝██║██╔══██║██║  ██║██╔══╝      ██╔══██╗  ╚██╔╝      ╚██╗ ██╔╝ ██║██║        ██║   ██╔══██╗██╔══██╗    
 ██║ ╚═╝ ██║██║  ██║██████╔╝███████╗    ██████╔╝   ██║        ╚████╔╝  ██║███████╗   ██║   ██║  ██║██║  ██║    
-╚═╝     ╚═╝╚═╝  ╚═╝╚═════╝ ╚══════╝    ╚═════╝    ╚═╝         ╚═══╝   ╚═╝╚══════╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝                                                     
+╚═╝     ╚═╝╚═╝  ╚═╝╚═════╝ ╚══════╝    ╚═════╝    ╚═╝         ╚═══╝   ╚═╝╚══════╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝
 """)
 
 def print_header():
@@ -49,8 +49,7 @@ def print_result(code, url):
     print(f"| {color:<6} | {url:<55} |")
 
 def print_footer():
-    print("+-------+---------------------------------------------------------+")
-    print()
+    print("+-------+---------------------------------------------------------+\n")
 
 def test_variants(base_url, payloads=PAYLOADS):
     print_header()
@@ -59,18 +58,17 @@ def test_variants(base_url, payloads=PAYLOADS):
         try:
             r = requests.get(test_url, timeout=5)
             print_result(r.status_code, test_url)
-        except requests.exceptions.Timeout:
-            print(f"{Fore.RED}[ERROR] Timeout for {test_url}")
-        except requests.exceptions.ConnectionError:
-            print(f"{Fore.RED}[ERROR] Connection error for {test_url}")
         except requests.exceptions.RequestException as e:
-            print(f"{Fore.RED}[ERROR] Request failed for {test_url} -> {e}")
+            print(f"{Fore.RED}[ERROR] {test_url} -> {e}")
     print_footer()
 
 def test_variants_reduced(base_url, payloads=PAYLOADS):
+    total = len(payloads)
     results = []
-    print("\nScanning (reduced mode)...")
-    for payload in tqdm(payloads, desc="Progress", unit="req"):
+
+    print("\nScanning (reduced mode)...\n")
+    
+    for index, payload in enumerate(payloads, start=1):
         test_url = urljoin(base_url + "/", payload)
         try:
             r = requests.get(test_url, timeout=5)
@@ -78,7 +76,14 @@ def test_variants_reduced(base_url, payloads=PAYLOADS):
                 results.append((r.status_code, test_url))
         except requests.exceptions.RequestException:
             pass
-        time.sleep(0.1)  # pour que la barre soit visible et "stylée"
+
+        # Barre de progression mise à jour à chaque test
+        progress = int((index / total) * 30)
+        bar = "#" * progress + "-" * (30 - progress)
+        percent = int((index / total) * 100)
+        sys.stdout.write(f"\r[{bar}] {percent}%")
+        sys.stdout.flush()
+
     print("\n\nSummary of results (200 and 403):")
     print_header()
     for code, url in results:
@@ -94,13 +99,14 @@ def load_wordlist(filename="wordlist.txt"):
         return []
 
 def menu_select_list_mode():
-    print("+-------------------------------+")
+    print("+--------------------------------+")
     print("| Select an option:              |")
     print("+---------------------------------------------------+")
     print("| 1 - Start fuzzing with the default list           |")
     print("| 2 - Launch with a custom wordlist (wordlist.txt)  |")
     print("| 3 - Quit                                          |")
     print("+---------------------------------------------------+")
+    print("+-------------------------------------------------------------------------------+")
 
     while True:
         choice = input("\n>>> ")
@@ -117,12 +123,13 @@ def menu_select_list_mode():
             print("\nInvalid option, try again.")
 
 def menu_select_mode():
-    print("+-------------------------------+")
+    print("+--------------------------------+")
     print("| Select display mode:           |")
-    print("+-------------------------------+")
+    print("+--------------------------------+")
     print("| 1 - Extended mode (full output)|")
-    print("| 2 - Reduced mode (summary only) |")
-    print("+-------------------------------+")
+    print("| 2 - Reduced mode (summary only)|")
+    print("+--------------------------------+")
+    print("+-------------------------------------------------------------------------------+")
 
     while True:
         choice = input("\n>>> ")
@@ -140,8 +147,8 @@ def ask_url():
     print("| Advice                        |")
     print("+----------------------------------------------------+")
     print("| - Include protocol (http:// or https://)           |")
-    print("| - Don't use spaces                                   |")
-    print("| - Example : https://site.com/                        |")
+    print("| - Don't use spaces                                 |")
+    print("| - Example : https://site.com/                      |")
     print("+----------------------------------------------------+")
     print()
 
@@ -152,13 +159,16 @@ def ask_url():
         else:
             print(f"{Fore.RED}Invalid URL. Be sure to include http:// or https://")
 
+# ======================
+#        MAIN
+# ======================
 if __name__ == "__main__":
     print_logo()
+    mode_list = menu_select_list_mode()
     mode_display = menu_select_mode()
     url = ask_url()
 
     if mode_display == "extended":
-        mode_list = menu_select_list_mode()
         if mode_list == "default":
             test_variants(url)
         elif mode_list == "wordlist":
@@ -166,10 +176,9 @@ if __name__ == "__main__":
             if wordlist:
                 test_variants(url, wordlist)
             else:
-                print(f"{Fore.RED}Wordlist empty, launch with default list.")
+                print(f"{Fore.RED}Wordlist empty, launching with default list.")
                 test_variants(url)
     elif mode_display == "reduced":
-        mode_list = menu_select_list_mode()
         if mode_list == "default":
             test_variants_reduced(url)
         elif mode_list == "wordlist":
@@ -177,5 +186,5 @@ if __name__ == "__main__":
             if wordlist:
                 test_variants_reduced(url, wordlist)
             else:
-                print(f"{Fore.RED}Wordlist empty, launch with default list.")
+                print(f"{Fore.RED}Wordlist empty, launching with default list.")
                 test_variants_reduced(url)
