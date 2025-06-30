@@ -53,7 +53,7 @@ python url_breaker.py
 ## Project Structure
 ```text
 url-breaker/
-├── LICENCE            # This documentation file
+├── LICENCE              # This documentation file
 ├── README.md            # This documentation file
 ├── url_breaker.py       # Main script
 ├── wordlist.txt         # Optional custom variants file
