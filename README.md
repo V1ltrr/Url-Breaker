@@ -27,7 +27,9 @@ This tool is particularly useful for web security testing, allowing you to verif
 Clone the repository or download the source files :
 ```bash
 git clone https://github.com/V1ltrr/Url-Breaker.git
+––—
 cd Url-Breaker
+———
 pip install requests colorama
 ```
 ## Usage
