@@ -9,7 +9,7 @@ This tool is particularly useful for web security testing, allowing you to verif
 
 ## Key Features
 - Automatic generation of URL variants including encodings, special sequences, path manipulations, and more.  
-- Support for a custom wordlist (`wordlist.txt`) to test additional variants.  
+- Support for a custom wordlist (`wordlist.txt`) to test your own additional variants.  
 - Sends HTTP requests to each variant and displays the HTTP status code.  
 - Colorized terminal output for easier result interpretation.  
 - Robust error handling to prevent process interruptions due to network issues.  
