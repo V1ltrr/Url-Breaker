@@ -83,5 +83,9 @@ Contributions are welcome! To contribute :
 4. Push to the branch (`git push origin feature/your-feature`)  
 5. Open a Pull Request
 
+<a href = "https://github.com/v1ltrr/simple-sqlite/graphs/contributors">
+  <img src = "https://contrib.rocks/image?repo=v1ltrr/simple-sqlite"/>
+</a>
+
 ## License
 This project is licensed under the GPL-3.0 License. See the [LICENSE](LICENSE) file for more details.
