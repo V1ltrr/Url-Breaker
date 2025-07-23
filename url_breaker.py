@@ -1,7 +1,6 @@
 import requests
 from urllib.parse import urljoin
 from colorama import Fore, init
-import time
 import sys
 
 init(autoreset=True)
