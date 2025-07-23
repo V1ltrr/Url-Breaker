@@ -1,5 +1,10 @@
 # Url Breaker
 
+<a href="https://pypi.python.org/pypi/wfuzz"><img src="https://img.shields.io/pypi/v/wfuzz.svg"></a>
+<a href="https://pypi.python.org/pypi/wfuzz"><img src="https://img.shields.io/pypi/dm/wfuzz"></a>
+<a href="https://pypi.python.org/pypi/wfuzz"><img src="https://img.shields.io/pypi/pyversions/wfuzz.svg"></a>
+<a href="https://codecov.io/github/xmendez/wfuzz"><img src="https://codecov.io/github/xmendez/wfuzz/coverage.svg?branch=master"></a>
+
 ## Description
 
 **Url Breaker** is a lightweight Python tool designed to perform URL fuzzing.  
