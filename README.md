@@ -2,10 +2,10 @@
 
 <p align="center">
   <img src="https://img.shields.io/badge/Version-1.2-green?style=for-the-badge">
-  <img src="https://img.shields.io/github/license/v1ltrr/Cours-Complet-Python-2025?style=for-the-badge">
-  <img src="https://img.shields.io/github/stars/v1ltrr/Cours-Complet-Python-2025?style=for-the-badge">
-  <img src="https://img.shields.io/github/issues/v1ltrr/Cours-Complet-Python-2025?color=red&style=for-the-badge">
-  <img src="https://img.shields.io/github/forks/v1ltrr/Cours-Complet-Python-2025?color=teal&style=for-the-badge">
+  <img src="https://img.shields.io/github/license/v1ltrr/Url-Breaker?style=for-the-badge">
+  <img src="https://img.shields.io/github/stars/v1ltrr/Url-Breaker?style=for-the-badge">
+  <img src="https://img.shields.io/github/issues/v1ltrr/Url-Breaker?color=red&style=for-the-badge">
+  <img src="https://img.shields.io/github/forks/v1ltrr/Url-Breaker?color=teal&style=for-the-badge">
 </p>
 
 <p align="center">
