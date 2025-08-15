@@ -15,6 +15,8 @@
   <img src="https://img.shields.io/badge/Written%20In-Python-darkcyan?style=flat-square">
 </p>
 
+---
+
 ## Description
 
 **Url Breaker** is a lightweight Python tool designed to perform URL fuzzing.  
