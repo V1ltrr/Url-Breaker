@@ -62,7 +62,7 @@ python url_breaker.py
    - Extended mode: view all tested URLs and their HTTP codes  
    - Reduced mode: view only a summary (200 & 403) with a progress bar
      
-2. Enter the target URL:  
+3. Enter the target URL:  
    - Must include the protocol (`http://` or `https://`)  
    - No spaces allowed  
    - Example: `https://example.com/admin`
@@ -84,13 +84,6 @@ url-breaker/
 - Uses `colorama` for colored terminal output.  
 - Interactive CLI with `print()` and `input()` for user interaction.
 - Uses concurrent.futures.ThreadPoolExecutor for concurrent requests.
-
-## Limitations and Future Work
-
-- Current fuzzing is based on a static list; future improvements could include dynamic variant generation.   
-- Content comparison to detect significant differences between responses.  
-- Exporting results to CSV or JSON.  
-- Supporting other HTTP methods like POST or PUT.
 
 ## Contributing
 Contributions are welcome! To contribute :
